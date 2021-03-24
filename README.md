@@ -3,13 +3,13 @@ Python package with a CLI to consolidate and analyze your investments (currently
 
 ## Installation
 ```bash
-git clone https://github.com/kaushiksk/pyportfolio.git && cd pyportfolio
-python setup.py install
+$ git clone https://github.com/kaushiksk/pyportfolio.git && cd pyportfolio
+$ python setup.py install
 ```
 
 
 ## Usage
 ### CLI
 ```bash
-pyportfolio -f path/to/cas-pdf
+$ pyportfolio -f path/to/cas-pdf
 ```
