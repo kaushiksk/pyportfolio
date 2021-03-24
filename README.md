@@ -2,10 +2,6 @@
 Python package with a CLI to consolidate and analyze your investments (currently only supports mutual funds).
 Uses [casparser](https://github.com/codereverser/casparser) to parse the Consolidated Account Statement (CAS) from CAMS/KARVY to provide portfolio insights.
 
-## Features
- - LTCG Tax Harvesting
- - .. 
-
 ## Installation
 ```bash
 $ git clone https://github.com/kaushiksk/pyportfolio.git && cd pyportfolio
@@ -13,6 +9,9 @@ $ python setup.py install
 ```
 
 ## Usage
+The following features are currently supported
+ - LTCG Tax Harvesting
+
 ### CLI
 ```bash
 $ pyportfolio -f path/to/cas-pdf
