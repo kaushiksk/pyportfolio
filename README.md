@@ -13,3 +13,7 @@ $ python setup.py install
 ```bash
 $ pyportfolio -f path/to/cas-pdf
 ```
+
+## Resources
+1. [CAS from CAMS](https://new.camsonline.com/Investors/Statements/Consolidated-Account-Statement)
+2. [CAS from Karvy/Kfintech](https://mfs.kfintech.com/investor/General/ConsolidatedAccountStatement)
