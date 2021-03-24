@@ -1,8 +1,10 @@
 from typing import List
-from scheme import Scheme, initialize_and_get_schemes
+
 import casparser
-from constants import EQUITY, DEBT
-from utils import logger
+
+from .constants import DEBT, EQUITY
+from .scheme import Scheme, initialize_and_get_schemes
+from .utils import logger
 
 debt_scheme_filter = lambda scheme: scheme.scheme_type == DEBT
 equity_scheme_filter = lambda scheme: scheme.scheme_type == EQUITY

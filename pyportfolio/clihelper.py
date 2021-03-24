@@ -1,8 +1,11 @@
-from portfolio import Portfolio
-import click 
-import tabulate
-import cutie 
 import locale
+
+import click
+import cutie
+import tabulate
+
+from .portfolio import Portfolio
+
 
 def ltcg_tax_harvesting_summary(portfolio: Portfolio):
     summary = portfolio.ltcg_tax_harvesting_summary()
