@@ -1,7 +1,7 @@
 import logging
 
 logging.basicConfig()
-logger = logging.getLogger('portfolio-cli')
+logger = logging.getLogger('pyportfolio')
 logger.setLevel(logging.INFO)
 
 # Filter Utils
