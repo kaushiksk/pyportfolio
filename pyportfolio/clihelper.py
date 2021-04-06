@@ -1,4 +1,7 @@
+from decimal import Decimal
 import locale
+from collections import defaultdict
+from os import device_encoding
 
 import click
 import cutie
@@ -37,3 +40,37 @@ def ltcg_tax_harvesting_summary(portfolio: Portfolio):
             header = eligible_purchase_transactions[0].keys()
             print(tabulate.tabulate(rows, header, tablefmt="grid"))
             print("\n")
+
+
+def valuation_summary(portfolio: Portfolio):
+    summary = portfolio.get_valuation_summary()
+    debt_summary = summary["debt_valuation"]
+    equity_summary = summary["equity_valuation"]
+
+    total_valuation = summary["valuation"]
+    debt_percentage = (debt_summary["valuation"] * 100) / total_valuation
+    equity_percentage = (equity_summary["valuation"] * 100) / total_valuation
+
+    print(click.style("\nValuation: ", bold=True) + click.style(locale.currency(total_valuation, grouping=True), bold=True, fg="green"))
+    print(click.style("Debt  : " + " ({0:.2f}%)".format(debt_percentage), bold=True))
+    print(click.style("Equity: " + " ({0:.2f}%)".format(equity_percentage), bold=True))
+
+    if cutie.prompt_yes_or_no('Show subtype breakup for debt and equity?'):
+        print()
+        def print_subtypes_summary(summary, title):
+            subtypes = defaultdict(Decimal)
+            for scheme in summary["schemes"]:
+                subtypes[scheme["subtype"]] += scheme["valuation"]
+            subtypes = sorted(subtypes.items(), key=lambda x: x[1], reverse=True)
+
+            valuation = summary["valuation"]
+            valuation_percentage = (valuation * 100) / total_valuation
+            
+            print(click.style("{0:<6} - ".format(title) + click.style(locale.currency(valuation, grouping=True), fg="green") + " ({0:.2f}%)".format(valuation_percentage), bold=True))
+            for subtype, subtype_valuation in subtypes:
+                print(click.style(" {0:<25} - {1} ({2:.2f}%)".format(subtype, click.style(locale.currency(subtype_valuation, grouping=True), fg="green"), (subtype_valuation * 100) / valuation), bold=True))
+            
+            print()
+
+        print_subtypes_summary(debt_summary, "Debt")
+        print_subtypes_summary(equity_summary, "Equity")
