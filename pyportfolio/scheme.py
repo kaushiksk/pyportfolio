@@ -178,3 +178,12 @@ def initialize_and_get_schemes(data_dict: CASParserDataType) -> List[Scheme]:
                 logger.debug(f"Done loading {scheme.name}")
         
         return schemes
+
+def get_valuation_summary_for_schemes(schemes: List[Scheme]):
+    valuation = sum([scheme.valuation for scheme in schemes])
+    schemes_details = [{"name": scheme.name, "valuation": scheme.valuation, "type": scheme.scheme_type, "subtype": scheme.scheme_subtype} for scheme in schemes]
+
+    return {
+        "valuation": valuation,
+        "schemes": schemes_details,
+    }
