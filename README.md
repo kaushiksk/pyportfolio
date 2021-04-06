@@ -4,7 +4,7 @@ Python package with a CLI to consolidate and analyze your investments (currently
 ## Installation
 ```bash
 $ git clone https://github.com/kaushiksk/pyportfolio.git && cd pyportfolio
-$ python setup.py install
+$ pip install .
 ```
 
 
