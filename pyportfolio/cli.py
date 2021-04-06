@@ -4,7 +4,7 @@ import logging
 import click
 import cutie
 
-from .clihelper import ltcg_tax_harvesting_summary
+from .clihelper import ltcg_tax_harvesting_summary, valuation_summary
 from .portfolio import Portfolio
 from .utils import logger
 
@@ -31,7 +31,7 @@ def main(caspdf):
 
     # Options
     LTCG_TAX_HARVEST = 'LTGC Tax Harvesting'
-    VALUATION = ' Portfolio Valuation'
+    VALUATION = 'Portfolio Valuation'
     EXIT = 'Exit'
 
     options = [
@@ -48,7 +48,7 @@ def main(caspdf):
         if option == LTCG_TAX_HARVEST:
             ltcg_tax_harvesting_summary(portfolio)
         elif option == VALUATION:
-            break
+            valuation_summary(portfolio)
         elif option == EXIT:
             break
 
