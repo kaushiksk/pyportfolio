@@ -7,8 +7,10 @@ from casparser.types import CASParserDataType, SchemeType, TransactionDataType
 
 from .constants import *
 from .mfhelper import get_scheme_details
-from .transaction_filters import (get_transaction_older_than_filter,
-                                  get_transaction_type_filter)
+from .transaction_filters import (
+    get_transaction_older_than_filter,
+    get_transaction_type_filter,
+)
 from .utils import logger, or_filter
 
 # Filters
@@ -34,11 +36,13 @@ class Scheme:
 
         scheme_details = get_scheme_details(self.amfi_id)
         if scheme_details:
-            nav = Decimal(scheme_details.get('nav'))
-            scheme_type, scheme_subtype = scheme_details.get('scheme_category').split(" - ")
+            nav = Decimal(scheme_details.get("nav"))
+            scheme_type, scheme_subtype = scheme_details.get("scheme_category").split(
+                " - "
+            )
             if scheme_type == "Other Scheme":
                 scheme_type = EQUITY
-        
+
         self.scheme_type = scheme_type
         self.scheme_subtype = scheme_subtype
         self.nav = nav
@@ -90,11 +94,13 @@ class Scheme:
             [transaction["units"] for transaction in eligible_purchase_transactions]
         )
         approx_amount = total_eligible_units * self.nav
-        approx_ltcg = Decimal('0.0')
+        approx_ltcg = Decimal("0.0")
 
         if total_eligible_units > 0:
             for transaction in eligible_purchase_transactions:
-                transaction["P&L"] = (self.nav - transaction["nav"]) * transaction["units"]
+                transaction["P&L"] = (self.nav - transaction["nav"]) * transaction[
+                    "units"
+                ]
 
             approx_ltcg = float(
                 sum(
@@ -105,28 +111,27 @@ class Scheme:
                 )
             )
             eligible_purchase_transactions = list(
-                    map(
-                        lambda x: {
-                            "Date": x["date"],
-                            "Days": x["Days"],
-                            "Amount": x["amount"],
-                            "Units": x["units"],
-                            "NAV": x["nav"],
-                            "P&L": x["P&L"],
-                        },
-                        eligible_purchase_transactions,
-                    )
-                )            
+                map(
+                    lambda x: {
+                        "Date": x["date"],
+                        "Days": x["Days"],
+                        "Amount": x["amount"],
+                        "Units": x["units"],
+                        "NAV": x["nav"],
+                        "P&L": x["P&L"],
+                    },
+                    eligible_purchase_transactions,
+                )
+            )
 
         return {
-                "scheme": self.name,
-                "units": total_eligible_units,
-                "nav": self.nav,
-                "amount": approx_amount,
-                "ltcg": approx_ltcg,
-                "transactions": eligible_purchase_transactions
-            }
-
+            "scheme": self.name,
+            "units": total_eligible_units,
+            "nav": self.nav,
+            "amount": approx_amount,
+            "ltcg": approx_ltcg,
+            "transactions": eligible_purchase_transactions,
+        }
 
     def get_purchase_transactions_for_active_units(self):
         redeemed_transactions = self.get_filtered_transactions(
@@ -169,19 +174,29 @@ class Scheme:
 
         return purchase_transactions
 
+
 def initialize_and_get_schemes(data_dict: CASParserDataType) -> List[Scheme]:
-        schemes: List[Scheme] = []
-        for folio in data_dict["folios"]:
-            for scheme_dict in folio["schemes"]:
-                scheme = Scheme(scheme_dict)
-                schemes.append(scheme)
-                logger.debug(f"Done loading {scheme.name}")
-        
-        return schemes
+    schemes: List[Scheme] = []
+    for folio in data_dict["folios"]:
+        for scheme_dict in folio["schemes"]:
+            scheme = Scheme(scheme_dict)
+            schemes.append(scheme)
+            logger.debug(f"Done loading {scheme.name}")
+
+    return schemes
+
 
 def get_valuation_summary_for_schemes(schemes: List[Scheme]):
     valuation = sum([scheme.valuation for scheme in schemes])
-    schemes_details = [{"name": scheme.name, "valuation": scheme.valuation, "type": scheme.scheme_type, "subtype": scheme.scheme_subtype} for scheme in schemes]
+    schemes_details = [
+        {
+            "name": scheme.name,
+            "valuation": scheme.valuation,
+            "type": scheme.scheme_type,
+            "subtype": scheme.scheme_subtype,
+        }
+        for scheme in schemes
+    ]
 
     return {
         "valuation": valuation,
