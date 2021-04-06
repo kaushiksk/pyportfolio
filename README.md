@@ -12,6 +12,7 @@ $ pip install .
 ## Usage
 The following features are currently supported
  - LTCG Tax Harvesting
+ - Portfolio Summary and Break Up
 
 ### CLI
 ```bash
