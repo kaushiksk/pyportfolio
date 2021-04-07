@@ -1,7 +1,6 @@
 from decimal import Decimal
 import locale
 from collections import defaultdict
-from os import device_encoding
 
 import click
 import cutie
