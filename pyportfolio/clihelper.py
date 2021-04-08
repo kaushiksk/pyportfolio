@@ -1,7 +1,6 @@
 from decimal import Decimal
 import locale
 from collections import defaultdict
-from os import device_encoding
 
 import click
 import cutie
@@ -15,9 +14,7 @@ def ltcg_tax_harvesting_summary(portfolio: Portfolio):
 
     print(
         click.style("\nTotal LTCG Tax that can be harvested this FY: ", bold=True)
-        + click.style(
-            locale.currency(summary["total_ltcg"], grouping=True), bold=True, fg="green"
-        )
+        + click.style(locale.currency(summary["total_ltcg"], grouping=True), bold=True, fg="green")
     )
     print(
         click.style("Total value of units to be sold and bought: ", bold=True)
@@ -29,7 +26,8 @@ def ltcg_tax_harvesting_summary(portfolio: Portfolio):
     )
     print(
         click.style(
-            "Note: Buy and sell the following units on the same day to avoid losses due to NAV fluctuations",
+            """Note: Buy and sell the following units on the same day to avoid losses due to NAV
+            fluctuations""",
             bold=True,
             fg="yellow",
         )
@@ -37,8 +35,7 @@ def ltcg_tax_harvesting_summary(portfolio: Portfolio):
 
     schemes_breakup = summary["schemes"]
     schemes_breakup = [
-        {k: v for k, v in scheme.items() if k != "transactions"}
-        for scheme in schemes_breakup
+        {k: v for k, v in scheme.items() if k != "transactions"} for scheme in schemes_breakup
     ]
     rows = [x.values() for x in schemes_breakup]
     header = schemes_breakup[0].keys()
@@ -62,7 +59,7 @@ def ltcg_tax_harvesting_summary(portfolio: Portfolio):
                 )
             )
             print(
-                f"Approx LTCG: "
+                "Approx LTCG: "
                 + click.style(
                     locale.currency(scheme["ltcg"], grouping=True),
                     bold=True,
@@ -88,9 +85,7 @@ def valuation_summary(portfolio: Portfolio):
 
     print(
         click.style("\nValuation: ", bold=True)
-        + click.style(
-            locale.currency(total_valuation, grouping=True), bold=True, fg="green"
-        )
+        + click.style(locale.currency(total_valuation, grouping=True), bold=True, fg="green")
     )
     print(click.style("Debt  : " + " ({0:.2f}%)".format(debt_percentage), bold=True))
     print(click.style("Equity: " + " ({0:.2f}%)".format(equity_percentage), bold=True))
@@ -100,8 +95,11 @@ def valuation_summary(portfolio: Portfolio):
 
         def print_subtypes_summary(summary, title):
             subtypes = defaultdict(Decimal)
+            subtype_counts = defaultdict(int)
             for scheme in summary["schemes"]:
                 subtypes[scheme["subtype"]] += scheme["valuation"]
+                subtype_counts[scheme["subtype"]] += 1
+
             subtypes = sorted(subtypes.items(), key=lambda x: x[1], reverse=True)
 
             valuation = summary["valuation"]
@@ -119,7 +117,7 @@ def valuation_summary(portfolio: Portfolio):
                 print(
                     click.style(
                         " {0:<25} - {1} ({2:.2f}%)".format(
-                            subtype,
+                            subtype + " ({})".format(subtype_counts[subtype]),
                             click.style(
                                 locale.currency(subtype_valuation, grouping=True),
                                 fg="green",
