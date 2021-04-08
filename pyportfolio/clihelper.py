@@ -87,8 +87,8 @@ def valuation_summary(portfolio: Portfolio):
         click.style("\nValuation: ", bold=True)
         + click.style(locale.currency(total_valuation, grouping=True), bold=True, fg="green")
     )
-    print(click.style("Debt  : " + " ({0:.2f}%)".format(debt_percentage), bold=True))
-    print(click.style("Equity: " + " ({0:.2f}%)".format(equity_percentage), bold=True))
+    print(click.style("Debt  : " + " {0:.2f}%".format(debt_percentage), bold=True))
+    print(click.style("Equity: " + " {0:.2f}%".format(equity_percentage), bold=True))
 
     if cutie.prompt_yes_or_no("Show subtype breakup for debt and equity?"):
         print()
