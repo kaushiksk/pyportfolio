@@ -9,6 +9,14 @@ $ git clone https://github.com/kaushiksk/pyportfolio.git && cd pyportfolio
 $ pip install .
 ```
 
+## Contributing
+PRs are welcome. Once you've cloned your forked repo, run the following:
+```bash
+$ pip install -r requirements-dev.txt
+$ pre-commit install
+```
+This will install all the pre-commit hooks that will ensure formatting and linting sanity before each commit.
+
 ## Usage
 The following features are currently supported
  - LTCG Tax Harvesting
