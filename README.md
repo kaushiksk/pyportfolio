@@ -13,10 +13,11 @@ $ pip install .
 ```
 
 ## Contributing
-PRs are welcome. Once you've cloned your forked repo, run the following:
+PRs are welcome. Once you've cloned your forked repo, run the following from the root directory:
 ```bash
 $ pip install -r requirements-dev.txt
 $ pre-commit install
+$ pip install -e . # Installs development version of the package
 ```
 This will install all the pre-commit hooks that will ensure formatting and linting sanity before each commit.
 
