@@ -17,9 +17,11 @@ PRs are welcome. Once you've cloned your forked repo, run the following from the
 ```bash
 $ pip install -r requirements-dev.txt
 $ pre-commit install
-$ pip install -e . # Installs development version of the package
 ```
 This will install all the pre-commit hooks that will ensure formatting and linting sanity before each commit.
+```bash
+$ pip install -e . # Installs development version of the package
+```
 
 ## Usage
 The following features are currently supported
