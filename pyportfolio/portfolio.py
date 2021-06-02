@@ -1,3 +1,4 @@
+#
 from os import name
 from typing import List
 
@@ -63,3 +64,10 @@ class Portfolio:
 
     def __get_filtered_schemes(self, filter_to_apply) -> List[Scheme]:
         return list(filter(filter_to_apply, self.schemes))
+
+    def to_json(self):
+        return {
+            "user_info": self.investor_info,
+            "schemes": [scheme.to_json() for scheme in self.schemes],
+            "valuation": sum([scheme.valuation for scheme in self.schemes]),
+        }

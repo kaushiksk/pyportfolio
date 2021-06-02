@@ -37,9 +37,7 @@ class Scheme:
         scheme_details = get_scheme_details(self.amfi_id)
         if scheme_details:
             nav = Decimal(scheme_details.get("nav"))
-            scheme_type, scheme_subtype = scheme_details.get("scheme_category").split(
-                " - "
-            )
+            scheme_type, scheme_subtype = scheme_details.get("scheme_category").split(" - ")
             if scheme_type == "Other Scheme":
                 scheme_type = EQUITY
 
@@ -98,17 +96,10 @@ class Scheme:
 
         if total_eligible_units > 0:
             for transaction in eligible_purchase_transactions:
-                transaction["P&L"] = (self.nav - transaction["nav"]) * transaction[
-                    "units"
-                ]
+                transaction["P&L"] = (self.nav - transaction["nav"]) * transaction["units"]
 
             approx_ltcg = float(
-                sum(
-                    [
-                        transaction["P&L"]
-                        for transaction in eligible_purchase_transactions
-                    ]
-                )
+                sum([transaction["P&L"] for transaction in eligible_purchase_transactions])
             )
             eligible_purchase_transactions = list(
                 map(
@@ -134,9 +125,7 @@ class Scheme:
         }
 
     def get_purchase_transactions_for_active_units(self):
-        redeemed_transactions = self.get_filtered_transactions(
-            redemption_transaction_filter
-        )
+        redeemed_transactions = self.get_filtered_transactions(redemption_transaction_filter)
 
         if len(redeemed_transactions) > 0:
             total_redeemed_units = abs(
@@ -164,15 +153,25 @@ class Scheme:
                 purchase_transactions.pop(0)
             else:
                 # Part of the units were extinguished
-                purchase_transactions[0]["units"] = (
-                    computed_units - total_redeemed_units
-                )
+                purchase_transactions[0]["units"] = computed_units - total_redeemed_units
                 purchase_transactions[0]["amount"] = (
                     purchase_transactions[0]["units"] * purchase_transactions[0]["nav"]
                 )
                 break  # No more units were extinguished
 
         return purchase_transactions
+
+    def to_json(self):
+        return {
+            "amfi": self.amfi_id,
+            "name": self.name,
+            "units": self.units,
+            "nav": self.nav,
+            "valuation": self.valuation,
+            "type": self.scheme_type,
+            "subtype": self.scheme_subtype,
+            "transactions": self.transactions,
+        }
 
 
 def initialize_and_get_schemes(data_dict: CASParserDataType) -> List[Scheme]:
