@@ -47,7 +47,10 @@ class Scheme:
 
     def __update_transaction_details(self):
         for transaction in self.transactions:
-            transaction["Days"] = (datetime.date.today() - transaction["date"]).days
+            t_date = transaction["date"]
+            transaction["days"] = (datetime.date.today() - t_date).days
+            # Change to datetime object
+            transaction["date"] = datetime.datetime(t_date.year, t_date.month, t_date.day)
 
     @property
     def valuation(self):
@@ -105,7 +108,7 @@ class Scheme:
                 map(
                     lambda x: {
                         "Date": x["date"],
-                        "Days": x["Days"],
+                        "Days": x["days"],
                         "Amount": x["amount"],
                         "Units": x["units"],
                         "NAV": x["nav"],
