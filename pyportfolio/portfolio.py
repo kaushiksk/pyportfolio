@@ -52,7 +52,7 @@ class Portfolio:
             "equity_valuation": equity_valuation,
         }
 
-    def to_json(self):
+    def to_dict(self):
         return {
             "user_info": self.investor_info,
             "schemes": [scheme.dict() for scheme in self.schemes],
