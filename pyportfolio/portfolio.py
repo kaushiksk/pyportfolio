@@ -1,4 +1,6 @@
 import casparser
+import sys
+from casparser.exceptions import CASParseError
 from typing import List
 
 from .scheme_utils import (
@@ -15,7 +17,13 @@ from .utils import logger
 class Portfolio:
     def __init__(self, cas_file, cas_password) -> None:
         logger.info("Parsing CAS File")
-        data = casparser.read_cas_pdf(cas_file, cas_password)
+
+        try:
+            data = casparser.read_cas_pdf(cas_file, cas_password)
+        except CASParseError as e:
+            logger.error(e)
+            logger.error("Aborting!")
+            sys.exit()
 
         self.investor_info = data["investor_info"]
 
