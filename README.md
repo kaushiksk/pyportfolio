@@ -3,6 +3,7 @@
 [![GitHub](https://img.shields.io/github/license/kaushiksk/pyportfolio)](https://github.com/kaushiksk/pyportfolio/blob/main/LICENSE)
 [![Actions](https://img.shields.io/github/checks-status/kaushiksk/pyportfolio/main)](https://github.com/kaushiksk/pyportfolio/)
 [![code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyportfolio)
 
 Python package with a CLI to consolidate and analyze your investments (currently only supports mutual funds).
 
