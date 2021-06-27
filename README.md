@@ -38,7 +38,7 @@ The following features are currently supported
  - LTCG Tax Harvesting
  - Portfolio Summary and Break Up
 
-You can also export the portfolio into a dict for your usage. 
+You can also export the portfolio into a dict for your usage.
 ```python
 from pyportfolio import Portfolio
 
