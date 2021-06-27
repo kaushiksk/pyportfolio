@@ -45,7 +45,7 @@ from pyportfolio import Portfolio
 p = Portfolio("<cas-pdf>", "<cas-password>")
 p_dict = p.to_dict()
 ```
-To access schemes, you can use the `schemes` member of `Portfolio` or use `"schemes"` key in the imported dict.
+To access schemes, you can use the `schemes` member of `Portfolio` or use `"schemes"` key in the exported dict.
 ```python
 schemes = p.schemes # this is of type List[Scheme]
 schemes_list = p_dict["schemes"]
