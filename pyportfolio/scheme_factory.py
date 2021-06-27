@@ -11,16 +11,38 @@ from .mfhelper import get_scheme_details
 from .utils import logger
 
 
-def create_scheme_from_casparser(scheme_dict: CASParserSchemeType):
+def create_scheme_from_casparser(scheme_dict: CASParserSchemeType) -> Scheme:
+    """Create an object of Scheme model from casparser data
+
+    Args:
+        scheme_dict (CASParserSchemeType): scheme dict from casparser
+
+    Returns:
+        Scheme: instance of Scheme model
+
+    Raises:
+        ValidationError is dict parsing into Scheme model fails
+    """
     scheme_dict = __update_scheme_details(scheme_dict)
     try:
         scheme_model = Scheme(**scheme_dict)
         return scheme_model
-    except ValidationError as e:
-        print(e)
+    except ValidationError:
+        print(
+            "Dict validation failed. Make sure you are using casparser.read_cas_pdf with output = 'dict'"
+        )
+        raise
 
 
 def __update_scheme_details(scheme_dict: CASParserSchemeType):
+    """Update scheme dict from casparser with additional metadata
+
+    Args:
+        scheme_dict (CASParserSchemeType): scheme dict from casparser
+
+    Returns:
+        dict: copy of input dict with updated keys and values to conform to Scheme model
+    """
     scheme_dict = deepcopy(scheme_dict)
     __update_transaction_details(scheme_dict)
 
@@ -45,6 +67,13 @@ def __update_scheme_details(scheme_dict: CASParserSchemeType):
 
 
 def __update_transaction_details(scheme_dict: CASParserSchemeType):
+    """Update every transaction with additional info
+        - Adds a 'days' value denoting how old the transaction is
+        - Transforms 'date' into datetime object to conform with Scheme model. This is to help export this data to Mongo which only supports datetime.
+
+    Args:
+        scheme_dict : opy of input dict with updated keys and values to conform to Scheme model
+    """
     for transaction in scheme_dict["transactions"]:
         t_date = transaction["date"]
         transaction["days"] = (datetime.date.today() - t_date).days
@@ -52,6 +81,14 @@ def __update_transaction_details(scheme_dict: CASParserSchemeType):
 
 
 def initialize_and_get_schemes(data_dict: CASParserDataType) -> List[Scheme]:
+    """Process schemes in dict provided by casparser into instances of Scheme model
+
+    Args:
+        data_dict (CASParserDataType): data from casparser.read_cas_pdf
+
+    Returns:
+        List[Scheme]: List of instances of Scheme model corresponding to all schemes in provided data
+    """
     schemes: List[Scheme] = []
     for folio in data_dict["folios"]:
         for scheme_dict in folio["schemes"]:

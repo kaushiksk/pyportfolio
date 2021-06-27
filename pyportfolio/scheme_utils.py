@@ -15,6 +15,14 @@ def get_filtered_schemes(filter_to_apply: SchemeFilterType, schemes: List[Scheme
 
 
 def analyze_ltcg_tax_harvesting(scheme: Scheme):
+    """Analyze Long Term Capital Gains opportunities
+
+    Args:
+        scheme (Scheme):
+
+    Returns:
+        dict: ltgc stats for given scheme
+    """
     logger.debug(f"LTCG Tax Harvesting for Scheme: {scheme.name}")
 
     if scheme.type == EQUITY:

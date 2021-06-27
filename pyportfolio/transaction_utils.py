@@ -16,7 +16,15 @@ def get_filtered_transactions(
     return list(filter(filter_to_apply, transactions))
 
 
-def get_purchase_transactions_for_active_units(transactions: Transaction):
+def get_purchase_transactions_for_active_units(transactions: List[Transaction]):
+    """Returns all purchase transactions for units that haven't been redeemed yet
+
+    Args:
+        transactions (Transaction): list of transactions to check in
+
+    Returns:
+        List[Transaction]: All purchase transactions for units that haven't been redeemed
+    """
     redeemed_transactions = get_filtered_transactions(redemption_transaction_filter, transactions)
 
     if len(redeemed_transactions) > 0:
