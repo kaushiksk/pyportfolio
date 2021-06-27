@@ -4,6 +4,7 @@ logging.basicConfig()
 logger = logging.getLogger("pyportfolio")
 logger.setLevel(logging.INFO)
 
+
 # Filter Utils
 def and_filter(filters):
     return lambda x: all(f(x) for f in filters)
