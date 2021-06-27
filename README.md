@@ -10,6 +10,11 @@ Uses [casparser](https://github.com/codereverser/casparser) to parse the Consoli
 
 ## Installation
 ```bash
+$ pip install pyportfolio
+```
+
+To install from source:
+```bash
 $ git clone https://github.com/kaushiksk/pyportfolio.git && cd pyportfolio
 $ pip install .
 ```
@@ -26,14 +31,27 @@ $ pip install -e . # Installs development version of the package
 ```
 
 ## Usage
+```bash
+$ pyportfolio -f path/to/cas-pdf
+```
 The following features are currently supported
  - LTCG Tax Harvesting
  - Portfolio Summary and Break Up
 
-### CLI
-```bash
-$ pyportfolio -f path/to/cas-pdf
+You can also export the portfolio into a dict for your usage.
+```python
+from pyportfolio import Portfolio
+
+p = Portfolio("<cas-pdf>", "<cas-password>")
+p_dict = p.to_dict()
 ```
+To access schemes, you can use the `schemes` member of `Portfolio` or use `"schemes"` key in the exported dict.
+```python
+schemes = p.schemes # this is of type List[Scheme]
+schemes_list = p_dict["schemes"]
+```
+The schemes are instances of the [`Scheme`](/pyportfolio/models.py#L17) model.
+
 
 ## Resources
 1. [CAS from CAMS](https://new.camsonline.com/Investors/Statements/Consolidated-Account-Statement)
