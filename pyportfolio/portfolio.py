@@ -1,18 +1,16 @@
-from os import name
 from typing import List
 
 import casparser
 
-from .constants import DEBT, EQUITY
-from .scheme import (
-    Scheme,
-    initialize_and_get_schemes,
+from .scheme_utils import (
+    analyze_ltcg_tax_harvesting,
     get_valuation_summary_for_schemes,
+    get_filtered_schemes,
 )
+from .scheme_filters import debt_scheme_filter, equity_scheme_filter
+from .scheme_factory import initialize_and_get_schemes
+from .models import Scheme
 from .utils import logger
-
-debt_scheme_filter = lambda scheme: scheme.scheme_type == DEBT
-equity_scheme_filter = lambda scheme: scheme.scheme_type == EQUITY
 
 
 class Portfolio:
@@ -25,16 +23,10 @@ class Portfolio:
         logger.info("Loading schemes in portfolio")
         self.schemes: List[Scheme] = initialize_and_get_schemes(data)
 
-    def get_debt_schemes(self):
-        return self.__get_filtered_schemes(debt_scheme_filter)
-
-    def get_equity_schemes(self):
-        return self.__get_filtered_schemes(equity_scheme_filter)
-
     def ltcg_tax_harvesting_summary(self):
-        equity_schemes = self.get_equity_schemes()
+        equity_schemes = get_filtered_schemes(equity_scheme_filter, self.schemes)
         tax_harvesting_opportunities = [
-            scheme.analyze_ltcg_tax_harvesting() for scheme in equity_schemes
+            analyze_ltcg_tax_harvesting(scheme) for scheme in equity_schemes
         ]
         tax_harvesting_opportunities = list(
             filter(lambda x: x["ltcg"] != 0, tax_harvesting_opportunities)
@@ -49,8 +41,8 @@ class Portfolio:
         }
 
     def get_valuation_summary(self):
-        debt_schemes = self.get_debt_schemes()
-        equity_schemes = self.get_equity_schemes()
+        debt_schemes = get_filtered_schemes(debt_scheme_filter, self.schemes)
+        equity_schemes = get_filtered_schemes(equity_scheme_filter, self.schemes)
 
         debt_valuation = get_valuation_summary_for_schemes(debt_schemes)
         equity_valuation = get_valuation_summary_for_schemes(equity_schemes)
@@ -61,12 +53,9 @@ class Portfolio:
             "equity_valuation": equity_valuation,
         }
 
-    def __get_filtered_schemes(self, filter_to_apply) -> List[Scheme]:
-        return list(filter(filter_to_apply, self.schemes))
-
     def to_json(self):
         return {
             "user_info": self.investor_info,
-            "schemes": [scheme.to_json() for scheme in self.schemes],
+            "schemes": [scheme.dict() for scheme in self.schemes],
             "valuation": sum([scheme.valuation for scheme in self.schemes]),
         }
