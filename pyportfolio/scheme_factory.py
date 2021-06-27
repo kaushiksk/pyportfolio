@@ -2,10 +2,7 @@ import datetime
 from copy import deepcopy
 from decimal import Decimal
 from typing import List
-
 from pydantic.error_wrappers import ValidationError
-
-
 from casparser.types import CASParserDataType, SchemeType as CASParserSchemeType
 
 from .models import Scheme
