@@ -1,8 +1,8 @@
 # pyportfolio
-[![code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![PyPI Version](https://img.shields.io/pypi/v/pyportfolio)](https://pypi.org/project/pyportfolio/)
 [![GitHub](https://img.shields.io/github/license/kaushiksk/pyportfolio)](https://github.com/kaushiksk/pyportfolio/blob/main/LICENSE)
-[![Python package](https://github.com/kaushiksk/pyportfolio/actions/workflows/python-package.yml/badge.svg)](https://github.com/kaushiksk/pyportfolio/actions/workflows/python-package.yml)
-[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/kaushiksk/pyportfolio/main.svg)](https://results.pre-commit.ci/latest/github/kaushiksk/pyportfolio/main)
+[![Actions](https://img.shields.io/github/checks-status/kaushiksk/pyportfolio/main)](https://github.com/kaushiksk/pyportfolio/)
+[![code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Python package with a CLI to consolidate and analyze your investments (currently only supports mutual funds).
 
