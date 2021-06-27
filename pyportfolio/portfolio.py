@@ -1,6 +1,5 @@
-from typing import List
-
 import casparser
+from typing import List
 
 from .scheme_utils import (
     analyze_ltcg_tax_harvesting,
