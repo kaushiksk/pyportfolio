@@ -3,7 +3,6 @@ from typing import Callable
 from .constants import DEBT, EQUITY
 from .models import Scheme
 
-
 SchemeFilterType = Callable[[Scheme], bool]
 
 
